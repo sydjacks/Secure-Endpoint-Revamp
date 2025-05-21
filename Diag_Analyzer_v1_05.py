@@ -164,7 +164,9 @@ def main():
     for log in log_files:
         if os.path.isdir(os.path.join(output, log)):
             continue  # Skip directories
-        r = r'(\w{3} \d{1,2} \d\d:\d\d:\d\d).*Event::Handle.*\\\\\?\\(.*)\\(\\\\\?\\.*\\).*\\\\\?\\(.*)'
+        # Updated regex to match actual Event::HandleCreation log line format
+        # Example: (873358593, +0 ms) May 20 12:39:49 [13340]: Event::HandleCreation: START \\?\C:\Users\...\file(\\?\C:\Program Files\...\file), \\?\C:\Program Files\...\process.exe
+        r = r'(\w{3} \d{1,2} \d\d:\d\d:\d\d).*Event::HandleCreation: START (\\\\\?\\[^\(]+)\(\\\\\?\\[^\)]+\), (\\\\\?\\[^\s]+)'
         r_d = r'(\w{3} \d{1,2} \d\d:\d\d:\d\d)'
         with open(os.path.join(output, log), errors="ignore") as f:
             log_read = f.readlines()
