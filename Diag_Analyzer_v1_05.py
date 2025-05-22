@@ -182,13 +182,6 @@ def main():
                     if reg:
                         data.append("{},{},{}\n".format(reg[0][0], reg[0][1], reg[0][2]))
 
-
-    if re.findall(r, line):
-        print("Matching line:", line)
-        reg = re.findall(r, line)
-        data.append("{},{},{}\n".format(reg[0][0], reg[0][1], reg[0][2]))
-    else:
-        print("No match:", line)
     # Get Process information and print to screen and log
     process_list = list(map(lambda x: x.split(',')[1], data))
     common_process = Counter(process_list).most_common(10)
