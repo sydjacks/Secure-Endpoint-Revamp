@@ -184,7 +184,7 @@ def main():
 
 
     # Get Process information and print to screen and log
-    process_list = list(map(lambda x: x.split(',')[2], data))
+    process_list = list(map(lambda x: x.split(',')[1], data))
     common_process = Counter(process_list).most_common(10)
     print_info(common_process, "Processes", source, output, 10)
 
