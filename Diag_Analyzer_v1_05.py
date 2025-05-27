@@ -36,7 +36,7 @@ parser.add_argument("-t", "--time",
                     help='Time to start looking at logs (Must be in double quotes).  For example\n"Jan 22 00:00:01"',
                     required=False)
 parser.add_argument("-i", "--infile", help="Location of the diagnostic file", required=False)
-parser.add_argument("-d", "--directory", help="Directory location of the diagnostic files", required=False)
+parser.add_argument("-d", "--directory", help="Directory location of the diagnostic files", required=False) #sets up a way to provide the directory arguments. sets the arguemnt as optional, the user doesn't have to provide it 
 args = parser.parse_args()
 
 
@@ -90,10 +90,10 @@ def get_log_files_directory(source, output):
         log_files.append(get_log_files(file, output))
     return log_files[0]
 
-
+#Creates the output directory dependent upon version number
 def get_log_files(source, output):
     print("Moving log files into the output directory.\n")
-    with zipfile.ZipFile(source) as archive:
+    with zipfile.ZipFile(source) as archive: 
         namelist = []
         for x in archive.namelist():
             namelist.append(x)
@@ -101,30 +101,31 @@ def get_log_files(source, output):
         for f in archive.namelist():
             if get_version(f) == max_version:
                 fname = os.path.basename(f)
-                source = archive.open(f)
-                target = open(os.path.join(output, fname), "wb")
-                with source, target:
-                    shutil.copyfileobj(source, target)
+                source = archive.open(f) 
+                target = open(os.path.join(output, fname), "wb") 
+                with source, target: 
+                    shutil.copyfileobj(source, target) 
     archive.close()
-    return os.listdir(output)
+    #Returns a list of file names that were just extracted to the output directory
+    return os.listdir(output) 
 
-
+# Formats the output. Commented out the output variable declaration to test functionality.
 def print_info(data, name, source, output, count=100000):
-    if args.directory:
+    if args.directory: 
         filename = 'Directory-summary.txt'
-    else:
-        filename = f'{source.split(".")[0]}-summary.txt'
+    else: 
+        filename = f'{source.split(".")[0]}-summary.txt' 
     with open(filename, "a") as f:
         print("\n-----------------------------------\nTop {} {}:\n".format(count, name))
         f.write("Top {} {}:\n".format(count, name))
         for i in data:
             print('{0:>8}'.format(i[1]), i[0].rstrip())
-            output = '{0:>8}'.format(i[1]), i[0].rstrip()
+            # output = '{0:>8}'.format(i[1]), i[0].rstrip()
             f.write("{} {}\n".format(str(output[0]), str(output[1])))
         print("\n\n")
         f.write("\n\n")
 
-
+# Formats and writes the output to a specified file. Commented out the output variable declaration to test functionality. 
 def print_info_to_file(data, name, source, output):
     if args.directory:
         file_name = 'Directory-summary.txt'
@@ -133,7 +134,7 @@ def print_info_to_file(data, name, source, output):
     with open(file_name, "a") as f:
         f.write("All {}:\n".format(name))
         for i in data:
-            output = '{0:>8}'.format(i[1]), i[0].rstrip()
+            # output = '{0:>8}'.format(i[1]), i[0].rstrip()
             f.write("{} {}\n".format(str(output[0]), str(output[1])))
         f.write("\n\n")
 
