@@ -9,6 +9,7 @@ import argparse
 '''
 Diag_analyzer.exe v1.04
 22 June 2022
+Edited: 27 May 2025
 
 Usage:
     Diag_analyzer.exe
@@ -28,8 +29,12 @@ It will then create a directory with the diagnostic file name and store the log 
 Next, it will parse the logs and determine the Top 10 Processes, Files, Extensions and Paths and
 print that information to the screen and also to a {Diagnostic}-summary.txt file.
 
+*Note: Add our edits here*
+
 Written by Matthew Franks and Brandon Macer
+Edited by Samiya Fyffe and Sydney Jackson
 '''
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--time",
@@ -41,44 +46,58 @@ args = parser.parse_args()
 
 
 def get_source():
+    """
+    Chooses Diagnostic file to process.
+    Don't need to assign source to a variable, just return the path.
+    Combined .7s and .zip files into one function.
+    """
     if args.infile:
-        source = os.path.join(os.curdir, args.infile)
-        return source
+        #source = os.path.join(os.curdir, args.infile)
+        #return source
+        return os.path.join(os.curdir, args.infile)
     elif args.directory:
-        source = args.directory
-        return source
+        #source = args.directory
+        return args.directory
     else:
         for file in os.listdir(os.curdir):
-            if file.endswith(".7z"):
-                source = os.path.join(os.curdir, file)
-                return source
-            elif file.endswith(".zip"):
+            if file.endswith((".7z", ".zip")):
                 source = os.path.join(os.curdir, file)
                 return source
         exit("No diagnostic file found or specified.")
 
-
 def get_max_version(list_of_paths):
+    """
+    Locates and returns the latest version number from list of paths.
+    Cleaned up integer list with version_parts for easier readability.
+    """
     max_version = [0, 0, 0]
     r = r'\d{1,2}\.\d{1,2}\.\d{1,2}.\d{1,5}'
     for path in list_of_paths:
         reg = re.findall(r, path)
         if reg:
-            if list(map(lambda x: int(x), reg[0].split("."))) > max_version:
-                max_version = list(map(lambda x: int(x), reg[0].split(".")))
+            version_parts = list(map(lambda x: int(x), reg[0].split(".")))
+            if version_parts > max_version:
+                max_version = version_parts
     print("Found latest version: " + ".".join(list(map(lambda x: str(x), max_version))) + "\n")
     return ".".join(list(map(lambda x: str(x), max_version)))
 
-
 def get_version(path):
-    r = r'(\d{1,2}\.\d{1,2}\.\d{1,2}.\d{1,5}).*sfc\.exe.*'
-    reg = re.findall(r, path)
-    if reg:
-        return reg[0]
+    """
+    Extracts and returns version number from file path containing 'sfc.exe'.
+    Returns "0.0.0" if no version is found.
+    Changed variable names for clarity.
+    """
+    regex = r'(\d{1,2}\.\d{1,2}\.\d{1,2}.\d{1,5}).*sfc\.exe.*'
+    match = re.findall(regex, path)
+    if match:
+        return match[0]
     return "0.0.0"
 
-
 def get_log_files_directory(source, output):
+    """
+    Scans the source directory for .7z or .zip files and extracts the log files.
+    Returns the log files from the first archive found.
+    """
     files_7z = []
     for file in os.listdir(source):
         if file.endswith(".7z"):
