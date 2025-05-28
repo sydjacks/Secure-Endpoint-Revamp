@@ -28,6 +28,11 @@ It will then create a directory with the diagnostic file name and store the log 
 Next, it will parse the logs and determine the Top 10 Processes, Files, Extensions and Paths and
 print that information to the screen and also to a {Diagnostic}-summary.txt file.
 
+Note: 
+Simplified the regex to match the actual Event::HandleCreation log line format.
+Removed redundant code and improved readability.
+Removed ouput as an unnecessary argument in the print functions.
+
 Written by Matthew Franks and Brandon Macer
 '''
 
@@ -36,7 +41,7 @@ parser.add_argument("-t", "--time",
                     help='Time to start looking at logs (Must be in double quotes).  For example\n"Jan 22 00:00:01"',
                     required=False)
 parser.add_argument("-i", "--infile", help="Location of the diagnostic file", required=False)
-parser.add_argument("-d", "--directory", help="Directory location of the diagnostic files", required=False) #sets up a way to provide the directory arguments. sets the arguemnt as optional, the user doesn't have to provide it 
+parser.add_argument("-d", "--directory", help="Directory location of the diagnostic files", required=False)
 args = parser.parse_args()
 
 
@@ -109,8 +114,8 @@ def get_log_files(source, output):
     #Returns a list of file names that were just extracted to the output directory
     return os.listdir(output) 
 
-# Formats the output. Commented out the output variable declaration to test functionality.
-def print_info(data, name, source, output, count=100000):
+# Formats the output.
+def print_info(data, name, source, count=100000):
     if args.directory: 
         filename = 'Directory-summary.txt'
     else: 
@@ -120,13 +125,13 @@ def print_info(data, name, source, output, count=100000):
         f.write("Top {} {}:\n".format(count, name))
         for i in data:
             print('{0:>8}'.format(i[1]), i[0].rstrip())
-            # output = '{0:>8}'.format(i[1]), i[0].rstrip()
+            output = '{0:>8}'.format(i[1]), i[0].rstrip()
             f.write("{} {}\n".format(str(output[0]), str(output[1])))
         print("\n\n")
         f.write("\n\n")
 
-# Formats and writes the output to a specified file. Commented out the output variable declaration to test functionality. 
-def print_info_to_file(data, name, source, output):
+# Formats and writes the output to a specified file. 
+def print_info_to_file(data, name, source):
     if args.directory:
         file_name = 'Directory-summary.txt'
     else:
@@ -134,16 +139,13 @@ def print_info_to_file(data, name, source, output):
     with open(file_name, "a") as f:
         f.write("All {}:\n".format(name))
         for i in data:
-            # output = '{0:>8}'.format(i[1]), i[0].rstrip()
+            output = '{0:>8}'.format(i[1]), i[0].rstrip()
             f.write("{} {}\n".format(str(output[0]), str(output[1])))
         f.write("\n\n")
 
 
 def main():
-    try:
-        source = get_source()
-    except AttributeError:
-        exit("No Diagnostic file found.")
+    source = get_source()
     output = os.path.join(os.getcwd(), source.split('.')[0])
     print("\nCreating directory\n")
     try:
@@ -173,12 +175,6 @@ def main():
             log_read = f.readlines()
         for line in log_read:
             if "Event::HandleCreation" in line:
-                if args.time:
-                    if re.findall(r_d, line)[0] > args.time:
-                        reg = re.findall(r, line)
-                        if reg:
-                            data.append("{},{},{}\n".format(reg[0][0], reg[0][1], reg[0][2]))
-                else:
                     reg = re.findall(r, line)
                     if reg:
                         data.append("{},{},{}\n".format(reg[0][0], reg[0][1], reg[0][2]))
@@ -186,12 +182,12 @@ def main():
     # Get Process information and print to screen and log
     process_list = list(map(lambda x: x.split(',')[1], data))
     common_process = Counter(process_list).most_common(10)
-    print_info(common_process, "Processes", source, output, 10)
+    print_info(common_process, "Processes", source, 10)
 
     # Get File information and print to screen and log
     file_list = list(map(lambda x: x.split(',')[1], data))
     common_files = Counter(file_list).most_common(10)
-    print_info(common_files, "Files", source, output, 10)
+    print_info(common_files, "Files", source, 10)
 
     # Get Extension information and print to screen and log
     extension_list = list(map(lambda x: x.split(',')[1], data))
@@ -201,7 +197,7 @@ def main():
             x = i.split('.')[-1]
             extension_list_scrubbed.append(x)
     common_extensions = Counter(extension_list_scrubbed).most_common(10)
-    print_info(common_extensions, "Extensions", source, output, 10)
+    print_info(common_extensions, "Extensions", source, 10)
 
     # Get Path information and print to screen and log
     path_list = list(map(lambda x: x.split(',')[1], data))
@@ -211,11 +207,11 @@ def main():
         path_only_merged = "\\".join(path_only)
         path_list_scrubbed.append(path_only_merged)
     common_paths = Counter(path_list_scrubbed).most_common(100)
-    print_info(common_paths, "Paths", source, output, 100)
+    print_info(common_paths, "Paths", source, 100)
 
     # Print all file scans to summary file
     all_files = Counter(file_list).most_common(100000)
-    print_info_to_file(all_files, "Files", source, output)
+    print_info_to_file(all_files, "Files", source)
 
     #Hold screen open until Enter is pressed
     if args.directory:
