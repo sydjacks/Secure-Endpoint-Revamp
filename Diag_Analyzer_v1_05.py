@@ -131,23 +131,28 @@ def print_info(data, name, source, count=100000):
         f.write("\n\n")
 
 # Formats and writes the output to a specified file. 
-def print_info_to_file(data, name, source):
-    if args.directory:
-        file_name = 'Directory-summary.txt'
-    else:
-        file_name = f'{source.split(".")[0]}-summary.txt'
+def print_info_to_file(data, name, results_dir):
+    # Always write to results/summary.txt
+    file_name = os.path.join(results_dir, '-summary.txt')
     with open(file_name, "a") as f:
-        f.write("All {}:\n".format(name))
+        f.write("{}:\n".format(name))
         for i in data:
-            output = '{0:>8}'.format(i[1]), i[0].rstrip()
-            f.write("{} {}\n".format(str(output[0]), str(output[1])))
+            output_line = '{0:>8}'.format(i[1]), i[0].rstrip()
+            f.write("{} {}\n".format(str(output_line[0]), str(output_line[1])))
         f.write("\n\n")
 
 
 def main():
     source = get_source()
-    output = os.path.join(os.getcwd(), source.split('.')[0])
-    print("\nCreating directory\n")
+    output_dir_name = os.path.splitext(os.path.basename(source))[0]
+    output = os.path.join(os.getcwd(), output_dir_name)
+
+    # Create results directory if it doesn't exist
+    results_dir = os.path.join(os.getcwd(), "results")
+    if not os.path.exists(results_dir):
+        os.mkdir(results_dir)
+
+    print("\nCreating directory for extracted logs\n")
     try:
         if not os.path.exists(output):
             os.mkdir(output)
@@ -156,40 +161,39 @@ def main():
             print(f"{output} directory already exists.\n")
     except OSError:
         exit("Creation of the directory {} has failed.\n".format(output))
+
     if args.directory:
         log_files = get_log_files_directory(args.directory, output)
     else:
         log_files = get_log_files(source, output)
     print("Parsing the logs.\n")
-    # Put sfc.exe.log at the end of the list to maintain chronological order
+
+    # Clear the summary file before writing
+    summary_file = os.path.join(results_dir, '-summary.txt')
+    open(summary_file, "w").close()
 
     data = []
     for log in log_files:
         if os.path.isdir(os.path.join(output, log)):
             continue  # Skip directories
-        # Updated regex to match actual Event::HandleCreation log line format
-        # Example: (873358593, +0 ms) May 20 12:39:49 [13340]: Event::HandleCreation: START \\?\C:\Users\...\file(\\?\C:\Program Files\...\file), \\?\C:\Program Files\...\process.exe
         r = r'(\w{3} \d{1,2} \d\d:\d\d:\d\d).*Event::HandleCreation: START (\\\\\?\\[^\(]+)\(\\\\\?\\[^\)]+\), (\\\\\?\\[^\s]+)'
-        r_d = r'(\w{3} \d{1,2} \d\d:\d\d:\d\d)'
         with open(os.path.join(output, log), errors="ignore") as f:
             log_read = f.readlines()
         for line in log_read:
             if "Event::HandleCreation" in line:
-                    reg = re.findall(r, line)
-                    if reg:
-                        data.append("{},{},{}\n".format(reg[0][0], reg[0][1], reg[0][2]))
+                reg = re.findall(r, line)
+                if reg:
+                    data.append("{},{},{}\n".format(reg[0][0], reg[0][1], reg[0][2]))
 
-    # Get Process information and print to screen and log
-    process_list = list(map(lambda x: x.split(',')[1], data))
+    # Write results to results/summary.txt
+    process_list = list(map(lambda x: x.split(',')[2], data))
     common_process = Counter(process_list).most_common(10)
-    print_info(common_process, "Processes", source, 10)
+    print_info_to_file(common_process, "Processes", results_dir)
 
-    # Get File information and print to screen and log
     file_list = list(map(lambda x: x.split(',')[1], data))
     common_files = Counter(file_list).most_common(10)
-    print_info(common_files, "Files", source, 10)
+    print_info_to_file(common_files, "Files", results_dir)
 
-    # Get Extension information and print to screen and log
     extension_list = list(map(lambda x: x.split(',')[1], data))
     extension_list_scrubbed = []
     for i in extension_list:
@@ -197,9 +201,8 @@ def main():
             x = i.split('.')[-1]
             extension_list_scrubbed.append(x)
     common_extensions = Counter(extension_list_scrubbed).most_common(10)
-    print_info(common_extensions, "Extensions", source, 10)
+    print_info_to_file(common_extensions, "Extensions", results_dir)
 
-    # Get Path information and print to screen and log
     path_list = list(map(lambda x: x.split(',')[1], data))
     path_list_scrubbed = []
     for i in path_list:
@@ -207,17 +210,7 @@ def main():
         path_only_merged = "\\".join(path_only)
         path_list_scrubbed.append(path_only_merged)
     common_paths = Counter(path_list_scrubbed).most_common(100)
-    print_info(common_paths, "Paths", source, 100)
-
-    # Print all file scans to summary file
-    all_files = Counter(file_list).most_common(100000)
-    print_info_to_file(all_files, "Files", source)
-
-    #Hold screen open until Enter is pressed
-    if args.directory:
-        filename = 'Directory-summary.txt'
-    else:
-        filename = f'{source.split(".")[0]}-summary.txt'
+    print_info_to_file(common_paths, "Paths", results_dir)
 
 if __name__ == '__main__':
     main()

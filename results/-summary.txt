@@ -1,0 +1,142 @@
+Processes:
+   27060 \\?\C:\Program
+    3538 \\?\C:\Users\mafranks\AppData\Local\Programs\Microsoft
+    1989 \\?\C:\Windows\System32\svchost.exe
+     961 \\?\C:\Windows\SysWOW64\cmd.exe
+     361 \\?\C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+     262 \\?\C:\Windows\explorer.exe
+     208 \\?\C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\SearchHost.exe
+     176 \\?\C:\Windows\System32\backgroundTaskHost.exe
+      75 \\?\C:\Windows\Temp\AMP.Installer\{823763C8-1214-8237-B12472BC-4AB63205CFDD1D95}\amp_Desktop_Windows_Protect.exe
+      67 \\?\C:\Windows\System32\taskhostw.exe
+
+
+Files:
+    3894 \\?\C:\ProgramData\Code42-AAT\Data\agent_state.c42
+    1324 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\globalStorage\state.vscdb-journal
+    1300 \\?\C:\ProgramData\ThousandEyes\Endpoint Agent\etwTraces\ThousandEyes Endpoint Agent.etl
+     764 \\?\C:\Users\mafranks\AppData\Roaming\Code\User\globalStorage\state.vscdb-journal
+     517 \\?\C:\Windows\Temp\rmpasswd_win.js
+     424 \\?\C:\Windows\Temp\ct_cpuq_tmp.vbs
+     300 \\?\C:\Program Files\Microsoft Device Inventory Agent\InventoryService\InventoryServiceHarvesterDatabase.sqlite-journal
+     300 \\?\C:\Program Files\Microsoft Device Inventory Agent\InventoryService\InventoryServiceHarvesterDatabase.sqlite
+     288 \\?\C:\ProgramData\Mozilla-1de4eec8-1241-4177-a864-e594e8d1fb38\updates\308046B0AF4A39CB\backgroundupdate\datareporting\glean\db\data.safe.tmp
+     202 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\workspaceStorage\77c64dd8265a76fa18da44ebd311261c\chatSessions\40d5551d-3c5d-4228-a60a-54ec0ddc38bf.json
+
+
+Extensions:
+   10910 ldb
+    3911 c42
+    2167 vscdb-journal
+    1803 json
+    1432 tmp
+    1328 etl
+     595 dll
+     586 js
+     424 vbs
+     344 mui
+
+
+Paths:
+    7313 \\?\C:\ProgramData\CrashPlan\metadata\v3e\ldb
+    3911 \\?\C:\ProgramData\Code42-AAT\Data
+    3698 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Code Cache\js
+    3484 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Local Extension Settings\nkbihfbeogaeaoehlefnkodbefgpgknn
+    1336 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\globalStorage
+    1300 \\?\C:\ProgramData\ThousandEyes\Endpoint Agent\etwTraces
+    1189 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Cache\Cache_Data
+    1064 \\?\C:\Windows\Temp
+     764 \\?\C:\Users\mafranks\AppData\Roaming\Code\User\globalStorage
+     640 \\?\C:\Program Files\Microsoft Device Inventory Agent\InventoryService
+     418 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1
+     322 \\?\C:\Users\mafranks\AppData\Local\Temp\Microsoft\AzureMonitor\ot-azure-exporter-337562fe-655a-404d-bb41-98ff64a1a9dc
+     288 \\?\C:\ProgramData\Mozilla-1de4eec8-1241-4177-a864-e594e8d1fb38\updates\308046B0AF4A39CB\backgroundupdate\datareporting\glean\db
+     267 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Outlook
+     226 \\?\C:\Users\mafranks\AppData\Local\Temp
+     219 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\workspaceStorage\77c64dd8265a76fa18da44ebd311261c\chatSessions
+     215 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Edge\User Data\Default\Code Cache\js
+     202 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\workspaceStorage\77c64dd8265a76fa18da44ebd311261c\chatEditingSessions\40d5551d-3c5d-4228-a60a-54ec0ddc38bf
+     201 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\workspaceStorage\e03c42b2c0923a732dd493113f484914\chatSessions
+     200 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\workspaceStorage\e03c42b2c0923a732dd493113f484914\chatEditingSessions\9e82b8e4-abc6-4221-9d4c-666908423a87
+     193 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Edge\User Data\Default\Cache\Cache_Data
+     169 \\?\C:\Users\mafranks\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience_cw5n1h2txyewy\LocalState\EBWebView\Default\Code Cache\js
+     167 \\?\C:\Windows\SystemTemp
+     161 \\?\C:\Windows\System32\sru
+     158 \\?\C:\ProgramData\Code42-AAT\Comm\Ext
+     134 \\?\C:\Users\mafranks\AppData\Local\Microsoft\TokenBroker\Cache
+     133 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Safe Browsing
+     117 \\?\C:\Users\mafranks\AppData\Roaming\Jabra Direct
+     117 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\workspaceStorage\73eda714c94fcaffb4cc7247b9fb4c90\chatSessions
+     117 \\?\C:\Users\mafranks\AppData\Roaming\Code - Insiders\User\workspaceStorage\73eda714c94fcaffb4cc7247b9fb4c90\chatEditingSessions\7b1827ac-37c6-4064-ab8e-b8f7af3420ad
+     109 \\?\C:\Users\mafranks\AppData\Local\Temp\kupxxsbt.tha\resources\app\ServiceHub\Services\Microsoft.VisualStudio.Setup.Service
+     108 \\?\C:\Program Files\WindowsApps\Microsoft.GamingApp_2505.1001.5.0_x64__8wekyb3d8bbwe
+      93 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn
+      81 \\?\C:\Users\mafranks\AppData\LocalLow\Microsoft\CryptnetUrlCache\MetaData
+      79 \\?\C:\Program Files\Code42-AAT
+      79 \\?\C:\Users\mafranks\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience_cw5n1h2txyewy\LocalState\EBWebView\Default\Cache\Cache_Data
+      79 \\?\C:\ProgramData\Microsoft\Windows\AppRepository
+      75 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Office\16.0\Wef\webview2\59a0bd4e6a06ae39_LiveId\1\EBWebView\Default\Service Worker\CacheStorage\571988c4897ef87c20ec4d6b13878cf6c36e1caf\760ecf5e-b0ab-4687-a9c1-03560df84128
+      74 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\IndexedDB\chrome-extension_ggjhpefgjjfobnfoldnjipclpcfbgbhl_0.indexeddb.leveldb
+      73 \\?\C:\ProgramData\Microsoft\Network\Downloader
+      71 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Code Cache\js\index-dir
+      71 \\?\C:\ProgramData\Lenovo\Vantage\EventPump
+      70 \\?\C:\Users\mafranks\AppData\Local\Microsoft\IdentityCache\1\UD\u_JT2JR545IV9EBC18\e_C2GK9UTC67FSUCG3\Accounts
+      68 \\?\C:\Windows\System32\config\systemprofile\AppData\Local\Microsoft\Windows\PowerShell
+      67 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Network
+      66 \\?\C:\Program Files\WindowsApps\Microsoft.WindowsAppRuntime.1.7_7000.498.2246.0_x64__8wekyb3d8bbwe
+      63 \\?\C:\Windows\System32\config\systemprofile\AppData\LocalLow\Microsoft\CryptnetUrlCache\MetaData
+      62 \\?\C:\Windows\appcompat\pca
+      62 \\?\C:\Users\mafranks\AppData\Roaming\Code\Backups\1742908356635\file
+      61 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Outlook\16
+      59 \\?\C:\Program Files\WindowsApps\Microsoft.WindowsAppRuntime.1.7_7000.498.2246.0_x86__8wekyb3d8bbwe
+      58 \\?\C:\Windows\System32\Tasks\Microsoft\Windows\UpdateOrchestrator
+      58 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Code Cache\wasm
+      54 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Windows\ActionCenterCache
+      54 \\?\C:\Program Files\WindowsApps\Microsoft.GamingApp_2505.1001.5.0_x64__8wekyb3d8bbwe\Bundle\assets\node_modules\@gaming\xds-foundation\svg
+      52 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Windows\INetCache\Content.MSO
+      51 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Windows\WebCache
+      50 \\?\C:\Users\mafranks\AppData\Local\Microsoft\VisualStudio\Packages\_Instances\d84dd231
+      49 \\?\C:\ProgramData\NVIDIA Corporation\Drs
+      49 \\?\C:\Users\mafranks\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience_cw5n1h2txyewy\LocalState\EBWebView
+      48 \\?\C:\Users\mafranks\AppData\Local\Microsoft\IdentityCache\1\UD\u_JT2JR545IV9EBC18\e_C2GK9UTC67FSUCG3\AT\r_C84MKM6A9J5P6V7V\c_80H17DPCLF3JD3TM
+      48 \\?\C:\ProgramData\Microsoft\SmsRouter\MessageStore
+      48 \\?\C:\Users\mafranks\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\AppData\CacheStorage\Files4\XPTL2K4M_787\GUUXOJAN_938
+      48 \\?\C:\Windows\SystemTemp\Microsoft.PackageManagement
+      46 \\?\C:\Windows\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\State
+      44 \\?\C:\Users\mafranks\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\AppData\CacheStorage\Files4\XPTL2K4M_787\EW62X67M_939
+      44 \\?\C:\Users\mafranks\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\AppData\CacheStorage\Files4\XPTL2K4M_787\8W7C7Q6Y_940
+      40 \\?\C:\Windows\System32\config\systemprofile\AppData\Local\PushRouter
+      39 \\?\C:\Users\mafranks\AppData\Local\Packages\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\AC\Microsoft\Internet Explorer\DOMStore\ATR238LI
+      38 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Edge\User Data\Default
+      38 \\?\C:\Windows\Temp\AMP.Installer\{823763C8-1214-8237-B12472BC-4AB63205CFDD1D95}\FA_Events
+      36 \\?\C:\Users\mafranks\AppData\Local\Microsoft\OneAuth\accounts
+      36 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Outlook\HubAppFileCache\ZaNxcro4fAEODvt0700dRA==\2DB403C3-772D-4266-9803-AD15CD7E87F4
+      35 \\?\C:\Users\mafranks\AppData\Local\Microsoft\IdentityCache\1\UD\u_JT2JR545IV9EBC18\e_C2GK9UTC67FSUCG3\ID\r_C84MKM6A9J5P6V7V
+      34 \\?\C:\Users\mafranks\AppData\Local\Packages\Microsoft.AAD.BrokerPlugin_cw5n1h2txyewy\AC\TokenBroker\Accounts
+      33 \\?\C:\Program Files\WindowsApps\Microsoft.GamingApp_2505.1001.5.0_x64__8wekyb3d8bbwe\Bundle\assets\src\windows\app\assets\PublisherModule
+      32 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Local Storage\leveldb
+      32 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Sessions
+      32 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Edge\User Data\SmartScreen\local
+      31 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Office\OTele
+      31 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\GrShaderCache
+      30 \\?\C:\Users\mafranks\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\AC\BackgroundTransferApi
+      29 \\?\C:\Users\mafranks\AppData\Local\Temp\chrome_Unpacker_BeginUnzipping57788_1173668794
+      28 \\?\C:\Users\mafranks\AppData\Local\Temp\kupxxsbt.tha
+      26 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Office\16.0\Wef\webview2\59a0bd4e6a06ae39_LiveId\1\EBWebView\Default\Network
+      26 \\?\C:\Users\mafranks\AppData\Roaming\Microsoft\Windows\Recent\CustomDestinations
+      26 \\?\C:\ProgramData\CrashPlan\conf\udb
+      26 \\?\C:\ProgramData\Microsoft\Diagnosis\AggregatorStorage
+      26 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Edge\User Data\GrShaderCache
+      25 \\?\C:\Users\mafranks\AppData\Local\Packages\MicrosoftWindows.Client.WebExperience_cw5n1h2txyewy\LocalState\EBWebView\Default\Local Storage\leveldb
+      24 \\?\C:\ProgramData\Microsoft\Diagnosis\AggregatorStorage\Triggers
+      24 \\?\C:\ProgramData\USOPrivate\UpdateStore
+      24 \\?\C:\Users\mafranks\AppData\Local\Packages\Microsoft.AAD.BrokerPlugin_cw5n1h2txyewy\LocalState\u_39eqtbdhrginbbg6vcbgpo4v\c_mi1cmdi10dtsodg6l5e346dh
+      24 \\?\C:\Users\mafranks\AppData\Local\Google\Chrome\c_ijkyyvn\Profile 1\Code Cache\wasm\index-dir
+      24 \\?\C:\Users\mafranks\AppData\Local\Temp\kupxxsbt.tha\Assets
+      24 \\?\C:\Users\mafranks\.vscode-insiders\extensions\.a498e6fc-2ad6-4970-9319-0c32f57cab2e\dist
+      24 \\?\C:\Windows\System32\config\systemprofile\AppData\Local
+      23 \\?\C:\Windows\System32\Tasks\Microsoft\Windows\SoftwareProtectionPlatform
+      23 \\?\C:\Users\mafranks\AppData\Local\Microsoft\Edge\User Data
+      23 \\?\C:\Users\mafranks\.vscode-insiders\extensions\.0422a69c-8a55-4a54-83b8-6ed99e45d189
+
+
