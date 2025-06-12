@@ -29,7 +29,12 @@ It will then create a directory with the diagnostic file name and store the log 
 Next, it will parse the logs and determine the Top 10 Processes, Files, Extensions and Paths and
 print that information to the screen and also to a {Diagnostic}-summary.txt file.
 
-*Note: Add our edits here*
+*Note: Added improved functionality:
+- Combined .7z and .zip file handling into unified processing
+- Enhanced version detection and comparison
+- Improved path handling for cross-platform compatibility
+- Added clearer variable naming for maintainability
+*
 
 Written by Matthew Franks and Brandon Macer
 Edited by Samiya Fyffe and Sydney Jackson

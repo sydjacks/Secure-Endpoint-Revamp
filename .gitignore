@@ -1,2 +1,16 @@
+# Python virtual environment
 venv/
-CiscoAMP_Support_Tool_2025_05_20_13_02_12.zip
+.venv/
+
+# Diagnostic and log files
+*.7z
+*.zip
+*.log
+*-summary.txt
+
+# Program files and output
+Program Files/
+output/
+
+# System files
+.DS_Store
