@@ -150,27 +150,28 @@ def main():
     output_dir_name = os.path.splitext(os.path.basename(source))[0]
     output = os.path.join(os.getcwd(), output_dir_name)
 
-    # Create results directory if it doesn't exist
+    # Define and create 'results' directory if it doesn't already exist
     results_dir = os.path.join(os.getcwd(), "results")
     if not os.path.exists(results_dir):
         os.mkdir(results_dir)
-
-    print("\nCreating directory for extracted logs\n")
-    try:
-        if not os.path.exists(output):
-            os.mkdir(output)
-            print("Successfully created the directory '{}'.\n".format(output))
-        else:
-            print(f"{output} directory already exists.\n")
-    except OSError:
-        exit("Creation of the directory {} has failed.\n".format(output))
-
-    if args.directory:
-        log_files = get_log_files_directory(args.directory, output)
+        print(f"Created 'results' directory at '{results_dir}'.\n")
     else:
-        log_files = get_log_files(source, output)
-    print("Parsing the logs.\n")
+        print(f"'results' directory already exists at '{results_dir}'.\n")
 
+    # Use 'results_dir' as the output path for extracted logs
+    output = results_dir
+
+    # Collect and extract logs into 'results'
+    print("\nExtracting logs into 'results' directory...\n")
+    try:
+        if args.directory:
+            log_files = get_log_files_directory(args.directory, output)
+        else:
+            log_files = get_log_files(source, output)
+        print("Parsing the logs...\n")
+    except OSError as e:
+        exit(f"Log extraction failed: {str(e)}\n")
+        
     data = []
     for log in log_files:
         if os.path.isdir(os.path.join(output, log)):
