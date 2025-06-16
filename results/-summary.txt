@@ -1,14 +1,14 @@
 Processes:
-   27060 \\?\C:\Program
-    3538 \\?\C:\Users\mafranks\AppData\Local\Programs\Microsoft
+    9716 \\?\C:\Program Files\Google\Chrome\Application\chrome.exe
+    7342 \\?\C:\Program Files\Code42\Code42Service.exe
+    4195 \\?\C:\Program Files\Code42-AAT\code42-aat.exe
+    2677 \\?\C:\Users\mafranks\AppData\Local\Programs\Microsoft VS Code Insiders\Code - Insiders.exe
     1989 \\?\C:\Windows\System32\svchost.exe
+    1300 \\?\C:\Program Files (x86)\ThousandEyes\Endpoint Agent\te-agent.exe
      961 \\?\C:\Windows\SysWOW64\cmd.exe
-     361 \\?\C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-     262 \\?\C:\Windows\explorer.exe
-     208 \\?\C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\SearchHost.exe
-     176 \\?\C:\Windows\System32\backgroundTaskHost.exe
-      75 \\?\C:\Windows\Temp\AMP.Installer\{823763C8-1214-8237-B12472BC-4AB63205CFDD1D95}\amp_Desktop_Windows_Protect.exe
-      67 \\?\C:\Windows\System32\taskhostw.exe
+     950 \\?\C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+     861 \\?\C:\Users\mafranks\AppData\Local\Programs\Microsoft VS Code\Code.exe
+     703 \\?\C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE
 
 
 Files:

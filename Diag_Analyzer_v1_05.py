@@ -4,6 +4,8 @@ import shutil
 import re
 from collections import Counter
 import argparse
+import csv
+from io import StringIO
 
 
 '''
@@ -131,14 +133,15 @@ def print_info(data, name, source, count=100000):
         f.write("\n\n")
 
 # Formats and writes the output to a specified file. 
-def print_info_to_file(data, name, results_dir):
+def print_info_to_file(data, name, results_dir, overwrite=False):
     # Always write to results/summary.txt
     file_name = os.path.join(results_dir, '-summary.txt')
-    with open(file_name, "a") as f:
+    mode = 'w' if overwrite else 'a'
+    with open(file_name, mode) as f:
         f.write("{}:\n".format(name))
         for i in data:
             output_line = '{0:>8}'.format(i[1]), i[0].rstrip()
-            f.write("{} {}\n".format(str(output_line[0]), str(output_line[1])))
+            f.write('{} {}\n'.format(output_line[0], output_line[1]))
         f.write("\n\n")
 
 
@@ -168,15 +171,11 @@ def main():
         log_files = get_log_files(source, output)
     print("Parsing the logs.\n")
 
-    # Clear the summary file before writing
-    summary_file = os.path.join(results_dir, '-summary.txt')
-    open(summary_file, "w").close()
-
     data = []
     for log in log_files:
         if os.path.isdir(os.path.join(output, log)):
             continue  # Skip directories
-        r = r'(\w{3} \d{1,2} \d\d:\d\d:\d\d).*Event::HandleCreation: START (\\\\\?\\[^\(]+)\(\\\\\?\\[^\)]+\), (\\\\\?\\[^\s]+)'
+        r = r'(\w{3} \d{1,2} \d\d:\d\d:\d\d).*Event::HandleCreation: START (\\\\\?\\[^\(]+)\(\\\\\?\\[^\)]+\), (\\\\\?\\.+)'
         with open(os.path.join(output, log), errors="ignore") as f:
             log_read = f.readlines()
         for line in log_read:
@@ -188,7 +187,7 @@ def main():
     # Write results to results/summary.txt
     process_list = list(map(lambda x: x.split(',')[2], data))
     common_process = Counter(process_list).most_common(10)
-    print_info_to_file(common_process, "Processes", results_dir)
+    print_info_to_file(common_process, "Processes", results_dir, True)
 
     file_list = list(map(lambda x: x.split(',')[1], data))
     common_files = Counter(file_list).most_common(10)
