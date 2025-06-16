@@ -194,4 +194,4 @@ canvas.create_text(
 )
 
 window.resizable(True, True)
-window.mainloop()
+#window.mainloop() --Keep commented out
