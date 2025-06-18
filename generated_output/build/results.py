@@ -15,7 +15,23 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"/Users/sydjacks/Secure-Endpoint-Revamp/generated_output/build/assets/frame0")
+ASSETS_PATH = OUTPUT_PATH / "assets" / "frame0"
+
+
+def launch_results_window(file_path, options):
+    window = Toplevel()
+    window.title("Results")
+    window.geometry("600x400")
+
+    label = Label(window, text=f"Results for file: {file_path}")
+    label.pack(pady=20)
+
+    # Example content; customize this with your actual result display logic
+    result_label = Label(window, text="Your results would be shown here...")
+    result_label.pack(pady=20)
+
+    close_button = Button(window, text="Close", command=window.destroy)
+    close_button.pack(pady=20)
 
 sample_list = ["Processes"]
 def popup_export_file():
@@ -74,7 +90,7 @@ def get_section_from_summary(subheading, filename="-summary.txt"):
                 lines.append(line.rstrip())
     return lines
 
-# set this to the submit button 
+
 def display_results():
     canvas.create_text(
         260.0, 255.0,  # Coordinates inside the rectangle
@@ -175,7 +191,7 @@ canvas.create_text(
     anchor="nw",
     text="secure",
     fill="#FFFFFF",
-    font=("Jomolhari Regular", -60)  # note: Tkinter expects negative font size
+    font=("Jomolhari Regular", -60)
 )
 
 # Measure the width of "secure" to correctly position "endpoint"
@@ -194,4 +210,4 @@ canvas.create_text(
 )
 
 window.resizable(True, True)
-#window.mainloop() --Keep commented out
+window.mainloop()
