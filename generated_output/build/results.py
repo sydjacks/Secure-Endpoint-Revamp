@@ -4,6 +4,7 @@
 
 
 from pathlib import Path
+import os
 import tkinter as tk
 from tkinter import ttk
 import tkinter.filedialog as fd
@@ -12,7 +13,9 @@ import tkinter.filedialog as fd
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Toplevel, Label
 
+global sample_list
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets" / "frame0"
@@ -26,6 +29,17 @@ def launch_results_window(file_path, options):
     label = Label(window, text=f"Results for file: {file_path}")
     label.pack(pady=20)
 
+    canvas.create_text(
+        125.0, 255.0,  # Coordinates inside the rectangle
+        anchor="nw",
+        text = "\n\n".join(
+    f"{heading}\n" + "\n".join(get_section_from_summary(heading))
+    for heading in sample_list
+),
+    fill="#000000",
+    font=("CiscoSansTT", -20)
+)
+    
     # Example content; customize this with your actual result display logic
     result_label = Label(window, text="Your results would be shown here...")
     result_label.pack(pady=20)
@@ -33,7 +47,7 @@ def launch_results_window(file_path, options):
     close_button = Button(window, text="Close", command=window.destroy)
     close_button.pack(pady=20)
 
-sample_list = ["Processes"]
+
 def popup_export_file():
     popup = tk.Toplevel(window)
     popup.title("Export Results")
@@ -74,15 +88,27 @@ def open_popup():
     close_btn.pack(pady=10)
 
 def get_section_from_summary(subheading, filename="-summary.txt"):
+    # Locate the results directory
+    results_dir = os.path.join(os.getcwd(), "results")
+    summary_path = os.path.join(results_dir, filename)
+
+    # Check if results directory and summary file exist
+    if not os.path.isdir(results_dir):
+        print("Error: 'results' directory not found.")
+        return []
+    if not os.path.isfile(summary_path):
+        print(f"Error: '{filename}' not found in 'results' directory.")
+        return []
+
+    # Read and extract section
     lines = []
-    with open(filename, "r") as f:
+    with open(summary_path, "r") as f:
         in_section = False
         for line in f:
             if line.strip() == subheading:
                 in_section = True
                 continue  # Skip the subheading itself
             if in_section:
-                # Stop if we hit another subheading (line ending with ':') or a blank line
                 if line.strip().endswith(":") and line.strip() != subheading:
                     break
                 if line.strip() == "":
@@ -91,17 +117,18 @@ def get_section_from_summary(subheading, filename="-summary.txt"):
     return lines
 
 
-def display_results():
-    canvas.create_text(
-        260.0, 255.0,  # Coordinates inside the rectangle
-        anchor="nw",
-        text="\n".join(get_section_from_summary("Processes:")) + "\n\n" +
-             "\n".join(get_section_from_summary("Files:")) + "\n\n" +
-             "\n".join(get_section_from_summary("Extensions:")) + "\n\n" +
-             "\n".join(get_section_from_summary("Paths:")),
-        fill="#000000",
-        font=("CiscoSansTT", -20)
-)
+# def display_results():
+#     canvas.create_text(
+#         125.0, 255.0,  # Coordinates inside the rectangle
+#         anchor="nw",
+#         text = "\n\n".join(
+#     f"{heading}\n" + "\n".join(get_section_from_summary(heading))
+#     for heading in sample_list
+# ),
+#         fill="#000000",
+#         font=("CiscoSansTT", -20)
+# )
+
 
 window = Tk()
 
@@ -128,15 +155,18 @@ canvas.create_rectangle(
     fill="#FFFFFF",
     outline="")
 
-button_image_1 = PhotoImage(
-    file=relative_to_assets("button_1.png"))
-button_1 = Button(
-    image=button_image_1,
-    borderwidth=0,
-    highlightthickness=0,
-    command=display_results,
-    relief="flat"
-)
+# button_image_1 = PhotoImage(
+#     file=relative_to_assets("button_1.png"))
+# button_1 = Button(
+#     image=button_image_1,
+#     borderwidth=0,
+#     highlightthickness=0,
+#     command=display_results,
+#     relief="flat"
+# )
+
+button_1 = tk.Button(window, text="Export Results", command=popup_export_file)
+button_1.pack(pady=0)
 button_1.place(
     x=441.0,
     y=796.0,

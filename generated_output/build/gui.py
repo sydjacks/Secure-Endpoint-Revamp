@@ -1,6 +1,7 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Label, Toplevel, StringVar, IntVar, Checkbutton, messagebox
 from datetime import datetime
+from Diag_Analyzer_v1_05 import main
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets" / "frame0"
@@ -56,6 +57,10 @@ def handle_submit():
         "single_file": single_file_var.get(),
         "directory": directory_var.get()
     }
+    
+    main(selected_file_path)
+
+    
 
     window.withdraw()  # Hides this window 
     from results import launch_results_window  
@@ -90,6 +95,8 @@ def browse_file():
     if selected_file_path:
         print(f"Selected file: {selected_file_path}")
         file_path_var.set(selected_file_path)
+
+    
 
 def clear_checkboxes():
     processes_var.set(0)

@@ -46,23 +46,29 @@ parser.add_argument("-i", "--infile", help="Location of the diagnostic file", re
 parser.add_argument("-d", "--directory", help="Directory location of the diagnostic files", required=False)
 args = parser.parse_args()
 
+def get_source(input_path=None):
+    # 1. Use explicitly provided input path (highest priority)
+    if input_path and os.path.isfile(input_path):
+        return os.path.abspath(input_path)
 
-def get_source():
-    if args.infile:
-        source = os.path.join(os.curdir, args.infile)
-        return source
-    elif args.directory:
-        source = args.directory
-        return source
-    else:
-        for file in os.listdir(os.curdir):
-            if file.endswith(".7z"):
-                source = os.path.join(os.curdir, file)
-                return source
-            elif file.endswith(".zip"):
-                source = os.path.join(os.curdir, file)
-                return source
-        exit("No diagnostic file found or specified.")
+    # 2. Use args.infile if available
+    if hasattr(args, 'infile') and args.infile:
+        infile_path = os.path.join(os.curdir, args.infile)
+        if os.path.isfile(infile_path):
+            return os.path.abspath(infile_path)
+
+    # 3. Use args.directory if it points to a file
+    if hasattr(args, 'directory') and args.directory:
+        if os.path.isfile(args.directory):
+            return os.path.abspath(args.directory)
+
+    # 4. Search current directory for a matching file
+    for file in os.listdir(os.curdir):
+        if file.endswith((".7z", ".zip")):
+            return os.path.abspath(os.path.join(os.curdir, file))
+
+    # 5. Exit with error if nothing was found
+    exit("No diagnostic file found or specified.")
 
 
 def get_max_version(list_of_paths):
@@ -145,8 +151,8 @@ def print_info_to_file(data, name, results_dir, overwrite=False):
         f.write("\n\n")
 
 
-def main():
-    source = get_source()
+def main(source=None):
+    source = get_source(source)
     output_dir_name = os.path.splitext(os.path.basename(source))[0]
     output = os.path.join(os.getcwd(), output_dir_name)
 
