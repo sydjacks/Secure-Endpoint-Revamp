@@ -1,7 +1,13 @@
-from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Label, Toplevel, StringVar, IntVar, Checkbutton, messagebox
-from datetime import datetime
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
 from Diag_Analyzer_v1_05 import main
+from results import launch_results_window  
+from pathlib import Path
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Label, Toplevel, StringVar, IntVar, Checkbutton, messagebox, Scrollbar, Frame
+from datetime import datetime
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets" / "frame0"
@@ -60,10 +66,14 @@ def handle_submit():
     
     main(selected_file_path)
 
-    
+    summary_path = os.path.join(os.getcwd(), "results", "-summary.txt")
+    if not os.path.isfile(summary_path):
+        messagebox.showerror("Error", "No results were generated.")
+        return
+
 
     window.withdraw()  # Hides this window 
-    from results import launch_results_window  
+    #from results import launch_results_window  
     launch_results_window(file_path_var.get(), options, window)
 
 button_image_1 = PhotoImage(file=relative_to_assets("button_1.png"))
@@ -222,27 +232,49 @@ paths_cb.place(x=570, y=287)
 start_time_var = StringVar()
 
 def open_start_time_popup():
+    # Create a new popup window for entering the start time
     popup = Toplevel(window)
     popup.title("Enter Start Time")
     popup.geometry("300x100")
     popup.resizable(False, False)
 
-    Label(popup, text="(YYYY-MM-DD HH:MM:SS):").pack(pady=5)
+    # Prompt the user with the expected input format
+    Label(popup, text="Enter Start Time (e.g. May 20 12:01:04):").pack(pady=5)
+
+    # Create a text entry field for the user to input time
     time_var = StringVar()
     entry = Entry(popup, textvariable=time_var, width=25)
     entry.pack(pady=5)
-    entry.focus_set()
+    entry.focus_set()  # Automatically focus the input field
 
     def submit():
-        user_time = time_var.get().strip()
-        try:
-            datetime.strptime(user_time, "%Y-%m-%d %H:%M:%S")
-            start_time_var.set(user_time)
-            start_time_label.config(text=f"Start Time: {user_time}")
-            popup.destroy()
-        except ValueError:
-            messagebox.showerror("Invalid Format", "Please enter time as YYYY-MM-DD HH:MM:SS")
+        user_input = time_var.get().strip()  # Get user input and remove surrounding spaces
 
+        try:
+            # Get current year dynamically
+            current_year = datetime.now().year
+
+            # Parse the full time using the current year + user input
+            # This allows flexibility while keeping consistent datetime comparison
+            full_time = datetime.strptime(f"{current_year} {user_input}", "%Y %b %d %H:%M:%S")
+
+            # Store the parsed datetime for use in filtering log results later
+            global parsed_start_time
+            parsed_start_time = full_time
+
+            # Update the label to show what the user entered (without the year)
+            start_time_var.set(user_input)
+            start_time_label.config(text=f"Start Time: {user_input}")
+
+            popup.destroy()  # Close the popup after successful input
+        except ValueError:
+            # Show an error if the input format is incorrect
+            messagebox.showerror(
+                "Invalid Format", 
+                "Please enter time like: May 20 12:01:04"
+            )
+
+    # Add a submit button to trigger time parsing and validation
     submit_btn = Button(popup, text="Submit", command=submit)
     submit_btn.pack(pady=5)
 

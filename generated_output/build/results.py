@@ -6,86 +6,17 @@
 from pathlib import Path
 import os
 import tkinter as tk
-from tkinter import ttk
 import tkinter.filedialog as fd
-# from Diag_Analyzer_v1_05 import main # Assuming this is the module with the main logic
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, ttk, Canvas, Entry, Text, Button, PhotoImage, Label, Toplevel, StringVar, IntVar, Checkbutton, messagebox, Scrollbar, Frame
 from tkinter import Toplevel, Label
 
 global sample_list
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets" / "frame0"
-
-
-def launch_results_window(file_path, options):
-    window = Toplevel()
-    window.title("Results")
-    window.geometry("600x400")
-
-    label = Label(window, text=f"Results for file: {file_path}")
-    label.pack(pady=20)
-
-    canvas.create_text(
-        125.0, 255.0,  # Coordinates inside the rectangle
-        anchor="nw",
-        text = "\n\n".join(
-    f"{heading}\n" + "\n".join(get_section_from_summary(heading))
-    for heading in sample_list
-),
-    fill="#000000",
-    font=("CiscoSansTT", -20)
-)
-    
-    # Example content; customize this with your actual result display logic
-    result_label = Label(window, text="Your results would be shown here...")
-    result_label.pack(pady=20)
-
-    close_button = Button(window, text="Close", command=window.destroy)
-    close_button.pack(pady=20)
-
-
-def popup_export_file():
-    popup = tk.Toplevel(window)
-    popup.title("Export Results")
-    popup.geometry("400x200")
-    label = tk.Label(popup, text="Click below to save your results file.")
-    label.pack(pady=20)
-
-    def save_file():
-        file_path = fd.asksaveasfilename(
-            defaultextension=".txt",
-            filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
-        )
-        if file_path:
-            with open(file_path, "w") as f:
-                f.write("Exported results go here!\n")
-            tk.Label(popup, text="File saved!", fg="green").pack()
-
-    save_btn = tk.Button(popup, text="Save File", command=save_file)
-    save_btn.pack(pady=10)
-
-    close_btn = tk.Button(popup, text="Close", command=popup.destroy)
-    close_btn.pack(pady=10)
-
-def relative_to_assets(path: str) -> Path:
-    return ASSETS_PATH / Path(path)
-
-def open_popup():
-    window.destroy()
-    popup = tk.Tk()  # Create a new window (child of root)
-    
-    popup.title("Pop-Up Window")
-    popup.geometry("674x408")
-
-    label = ttk.Label(popup, text="Sample File Explorer Page")
-    label.pack(pady=20)
-
-    close_btn = ttk.Button(popup, text="Close", command=popup.destroy)
-    close_btn.pack(pady=10)
 
 def get_section_from_summary(subheading, filename="-summary.txt"):
     # Locate the results directory
@@ -116,128 +47,135 @@ def get_section_from_summary(subheading, filename="-summary.txt"):
                 lines.append(line.rstrip())
     return lines
 
+def launch_results_window(file_path, options, parent_window=None):
+    result_win = Toplevel(parent_window)
+    result_win.title("Results")
+    result_win.geometry("1090x863")
+    result_win.configure(bg="#FFFFFF")
 
-# def display_results():
-#     canvas.create_text(
-#         125.0, 255.0,  # Coordinates inside the rectangle
-#         anchor="nw",
-#         text = "\n\n".join(
-#     f"{heading}\n" + "\n".join(get_section_from_summary(heading))
-#     for heading in sample_list
-# ),
-#         fill="#000000",
-#         font=("CiscoSansTT", -20)
-# )
+    canvas = Canvas(
+        result_win,
+        bg="#FFFFFF",
+        height=863,
+        width=1090,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
+    )
+    canvas.place(x=0, y=0)
+
+    # Header
+    canvas.create_rectangle(0.0, 0.0, 1090.0, 112.0, fill="#0489BA", outline="")
+    canvas.create_text(
+        13.0, 18.0,
+        anchor="nw",
+        text="secure",
+        fill="#FFFFFF",
+        font=("CiscoSansTT", -60)
+    )
+
+    import tkinter.font as tkFont
+    font_secure = tkFont.Font(family="Jomolhari Regular", size=60)
+    width_secure = font_secure.measure("secure")
+    canvas.create_text(
+        13.0 + width_secure,
+        18.0,
+        anchor="nw",
+        text="endpoint",
+        fill="#FFFFFF",
+        font=("CiscoSans", -60)
+    )
+
+    # Main Container
+    canvas.create_rectangle(60.0, 207.0, 1020.0, 785.0, fill="#FFFFFF", outline="")
+    canvas.create_rectangle(250.0, 243.5, 780.0, 295.5, fill="#FFFFFF", outline="")
+
+    canvas.create_text(
+        285.0, 137.0,
+        anchor="nw",
+        text="Diagnostic Analyzer Results",
+        fill="#000000",
+        font=("CiscoSansTT", 45 * -1)
+    )
+
+    # Results Content
+    active_sections = []
+    if options.get("processes"):
+        active_sections.append("Processes:")
+    if options.get("files"):
+        active_sections.append("Files:")
+    if options.get("extensions"):
+        active_sections.append("Extensions:")
+    if options.get("paths"):
+        active_sections.append("Paths:")
+
+    summary_text = "\n\n".join(
+        f"{heading}\n" + "\n".join(get_section_from_summary(heading, filename="-summary.txt"))
+        for heading in active_sections
+    )
+
+    canvas.create_text(
+        125.0, 320.0,
+        anchor="nw",
+        text=summary_text or "No results to display for selected options.",
+        fill="#000000",
+        font=("CiscoSansTT", -20),
+        width=840
+    )
+
+    # Export Button inside the function and styled with no border
+    export_button = tk.Button(
+        result_win,
+        text="Export Results",
+        command=lambda: popup_export_file(result_win, summary_text),
+        bd=0,
+        highlightthickness=0,
+        relief="flat",
+        bg="#FFFFFF",
+        activebackground="#FFFFFF"
+    )
+    export_button.place(x=441.0, y=220.0, width=201.0, height=37.0)
 
 
-window = Tk()
 
-window.geometry("1090x863")
-window.configure(bg = "#FFFFFF")
+    #Add back button here
 
 
-canvas = Canvas(
-    window,
-    bg = "#FFFFFF",
-    height = 863,
-    width = 1090,
-    bd = 0,
-    highlightthickness = 0,
-    relief = "ridge"
-)
+def popup_export_file(parent, content_to_export):
+    popup = tk.Toplevel(parent)
+    popup.title("Export Results")
+    popup.geometry("400x200")
+    label = tk.Label(popup, text="Click below to save your results file.")
+    label.pack(pady=20)
 
-canvas.place(x = 0, y = 0)
-canvas.create_rectangle(
-    60.0,
-    207.0,
-    1020.0,
-    785.0,
-    fill="#FFFFFF",
-    outline="")
+    def save_file():
+        file_path = fd.asksaveasfilename(
+            defaultextension=".txt",
+            filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
+        )
+        if file_path:
+            with open(file_path, "w") as f:
+                f.write(content_to_export)
+            tk.Label(popup, text="File saved!", fg="green").pack()
 
-# button_image_1 = PhotoImage(
-#     file=relative_to_assets("button_1.png"))
-# button_1 = Button(
-#     image=button_image_1,
-#     borderwidth=0,
-#     highlightthickness=0,
-#     command=display_results,
-#     relief="flat"
-# )
+    save_btn = tk.Button(popup, text="Save File", command=save_file)
+    save_btn.pack(pady=10)
 
-button_1 = tk.Button(window, text="Export Results", command=popup_export_file)
-button_1.pack(pady=0)
-button_1.place(
-    x=441.0,
-    y=796.0,
-    width=201.0,
-    height=37.0
-)
+    close_btn = tk.Button(popup, text="Close", command=popup.destroy)
+    close_btn.pack(pady=10)
 
-canvas.create_rectangle(
-    250.0,
-    243.5,
-    780.0,
-    295.5,
-    fill="#FFFFFF",
-    outline="")
+def relative_to_assets(path: str) -> Path:
+    return ASSETS_PATH / Path(path)
 
-canvas.create_text(
-    249.0,
-    137.0,
-    anchor="nw",
-    text="Diagnostic Analyzer Results",
-    fill="#000000",
-    font=("CiscoSansTT", 45 * -1)
-)
+def open_popup():
+   # window.destroy()
+    popup = tk.Tk()  # Create a new window
+    
+    popup.title("Pop-Up Window")
+    popup.geometry("674x408")
 
-canvas.create_rectangle(
-    0.0,
-    0.0,
-    1090.0,
-    112.0,
-    fill="#0489BA",
-    outline="")
+    label = ttk.Label(popup, text="Sample File Explorer Page")
+    label.pack(pady=20)
 
-button_image_2 = PhotoImage(
-    file=relative_to_assets("button_2.png"))
-button_2 = Button(
-    image=button_image_2,
-    borderwidth=0,
-    highlightthickness=0,
-    command=open_popup,
-    relief="flat"
-)
-button_2.place(
-    x=999.0,
-    y=67.58892822265625,
-    width=64.6875,
-    height=29.210041046142578
-)
-
-canvas.create_text(
-    13.0,
-    18.0,
-    anchor="nw",
-    text="secure",
-    fill="#FFFFFF",
-    font=("Jomolhari Regular", -60)
-)
-
-# Measure the width of "secure" to correctly position "endpoint"
-import tkinter.font as tkFont
-font_secure = tkFont.Font(family="Jomolhari Regular", size=60)
-width_secure = font_secure.measure("secure")
-
-# Draw "endpoint" with a different font
-canvas.create_text(
-    13.0 + width_secure,
-    18.0,
-    anchor="nw",
-    text="endpoint",
-    fill="#FFFFFF",
-    font=("CiscoSans", -60)  # Change to your desired font
-)
-
-window.resizable(True, True)
-window.mainloop()
+    close_btn = ttk.Button(popup, text="Close", command=popup.destroy)
+    close_btn.pack(pady=10)
