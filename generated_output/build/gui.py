@@ -54,6 +54,7 @@ def handle_submit():
         messagebox.showerror("Missing File", "Please select a diagnostic file before submitting.")
         return
 
+    # Populates a dictionary of selectable options and 0 or 1.
     options = {
         "processes": processes_var.get(),
         "files": files_var.get(),
@@ -64,18 +65,11 @@ def handle_submit():
         "directory": directory_var.get()
     }
     
-    main(selected_file_path)
-
-    summary_path = os.path.join(os.getcwd(), "results", "-summary.txt")
-    if not os.path.isfile(summary_path):
-        messagebox.showerror("Error", "No results were generated.")
-        return
-
-
+    results_dir = main(selected_file_path)
     window.withdraw()  # Hides this window 
-    #from results import launch_results_window  
-    launch_results_window(file_path_var.get(), options, window)
+    launch_results_window(str(Path(results_dir)/ "-summary.txt"), options, window)
 
+#Submit Button
 button_image_1 = PhotoImage(file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
@@ -106,7 +100,6 @@ def browse_file():
         print(f"Selected file: {selected_file_path}")
         file_path_var.set(selected_file_path)
 
-    
 
 def clear_checkboxes():
     processes_var.set(0)
@@ -116,6 +109,7 @@ def clear_checkboxes():
     single_file_var.set(0)
     directory_var.set(0)
 
+#Browse Button
 button_image_2 = PhotoImage(file=relative_to_assets("button_2.png"))
 button_2 = Button(
     image=button_image_2,
@@ -274,7 +268,7 @@ def open_start_time_popup():
                 "Please enter time like: May 20 12:01:04"
             )
 
-    # Add a submit button to trigger time parsing and validation
+    # Submit button to trigger time parsing and validation
     submit_btn = Button(popup, text="Submit", command=submit)
     submit_btn.pack(pady=5)
 
@@ -289,6 +283,7 @@ start_time_label = Label(
 start_time_label.place(x=390, y=208, width=110, height=20)
 start_time_label.bind("<Button-1>", lambda e: open_start_time_popup())
 
+#Clear Button
 button_image_9 = PhotoImage(file=relative_to_assets("button_9.png"))
 button_9 = Button(
     image=button_image_9,

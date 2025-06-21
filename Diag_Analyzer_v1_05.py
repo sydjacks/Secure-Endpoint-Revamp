@@ -6,6 +6,10 @@ from collections import Counter
 import argparse
 import csv
 from io import StringIO
+from pathlib import Path
+from datetime import datetime
+
+
 
 
 '''
@@ -30,18 +34,26 @@ It will then create a directory with the diagnostic file name and store the log 
 Next, it will parse the logs and determine the Top 10 Processes, Files, Extensions and Paths and
 print that information to the screen and also to a {Diagnostic}-summary.txt file.
 
-Note: 
-Simplified the regex to match the actual Event::HandleCreation log line format.
-Removed redundant code and improved readability.
-Removed ouput as an unnecessary argument in the print functions.
 
 Written by Matthew Franks and Brandon Macer
 '''
 
+'''
+Diag_analyzer.exe v1.06
+21 June 2025
+
+Performance Notes:
+- Uses regex to match relevant log lines efficiently.
+- Optimized directory scanning by using lexicographical max for latest results.
+- Designed for cross-platform compatibility and long-term analysis storage.
+
+Written by Sydney Jackson and Samiya Fyffe
+'''
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--time",
-                    help='Time to start looking at logs (Must be in double quotes).  For example\n"Jan 22 00:00:01"',
-                    required=False)
+            help='Time to start looking at logs (Must be in double quotes).  For example\n"Jan 22 00:00:01"',
+            required=False)
 parser.add_argument("-i", "--infile", help="Location of the diagnostic file", required=False)
 parser.add_argument("-d", "--directory", help="Directory location of the diagnostic files", required=False)
 args = parser.parse_args()
@@ -150,22 +162,33 @@ def print_info_to_file(data, name, results_dir, overwrite=False):
             f.write('{} {}\n'.format(output_line[0], output_line[1]))
         f.write("\n\n")
 
+def get_timestamped_results_dir():
+    base_results_dir = Path.cwd() / "results"
+    base_results_dir.mkdir(parents=True, exist_ok=True)
+    print(f"[DEBUG] Created or confirmed base dir: {base_results_dir}")
+
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    timestamped_dir = base_results_dir / timestamp
+    timestamped_dir.mkdir(parents=True, exist_ok=True)
+    print(f"[DEBUG] Created timestamped dir: {timestamped_dir}")
+
+    return timestamped_dir
+
 
 def main(source=None):
     source = get_source(source)
+    
+    # Get output folder name from the zip filename
     output_dir_name = os.path.splitext(os.path.basename(source))[0]
-    output = os.path.join(os.getcwd(), output_dir_name)
 
-    # Define and create 'results' directory if it doesn't already exist
-    results_dir = os.path.join(os.getcwd(), "results")
-    if not os.path.exists(results_dir):
-        os.mkdir(results_dir)
-        print(f"Created 'results' directory at '{results_dir}'.\n")
-    else:
-        print(f"'results' directory already exists at '{results_dir}'.\n")
+    # Create timestamped results directory
+    results_dir = get_timestamped_results_dir()
 
-    # Use 'results_dir' as the output path for extracted logs
-    output = results_dir
+    # Use the timestamped results directory as the base for output
+    output = results_dir / output_dir_name
+    output.mkdir(parents=True, exist_ok=True)  # Ensure output subfolder exists
+
+    print(f"Logs will be extracted to: {output}")
 
     # Collect and extract logs into 'results'
     print("\nExtracting logs into 'results' directory...\n")
@@ -217,6 +240,8 @@ def main(source=None):
         path_list_scrubbed.append(path_only_merged)
     common_paths = Counter(path_list_scrubbed).most_common(100)
     print_info_to_file(common_paths, "Paths", results_dir)
+
+    return results_dir
 
 if __name__ == '__main__':
     main()
