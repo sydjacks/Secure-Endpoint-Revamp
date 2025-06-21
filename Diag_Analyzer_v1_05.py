@@ -171,7 +171,7 @@ def main():
         print("Parsing the logs...\n")
     except OSError as e:
         exit(f"Log extraction failed: {str(e)}\n")
-        
+
     data = []
     for log in log_files:
         if os.path.isdir(os.path.join(output, log)):

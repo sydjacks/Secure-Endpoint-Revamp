@@ -7,8 +7,8 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk
 import tkinter.filedialog as fd
+import os
 # from Diag_Analyzer_v1_05 import main # Assuming this is the module with the main logic
-
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -17,7 +17,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"/Users/sydjacks/Secure-Endpoint-Revamp/generated_output/build/assets/frame0")
 
-sample_list = ["Processes"]
+sample_list = ["Processes:"]
 def popup_export_file():
     popup = tk.Toplevel(window)
     popup.title("Export Results")
@@ -58,15 +58,27 @@ def open_popup():
     close_btn.pack(pady=10)
 
 def get_section_from_summary(subheading, filename="-summary.txt"):
+    # Locate the results directory
+    results_dir = os.path.join(os.getcwd(), "results")
+    summary_path = os.path.join(results_dir, filename)
+
+    # Check if results directory and summary file exist
+    if not os.path.isdir(results_dir):
+        print("Error: 'results' directory not found.")
+        return []
+    if not os.path.isfile(summary_path):
+        print(f"Error: '{filename}' not found in 'results' directory.")
+        return []
+
+    # Read and extract section
     lines = []
-    with open(filename, "r") as f:
+    with open(summary_path, "r") as f:
         in_section = False
         for line in f:
             if line.strip() == subheading:
                 in_section = True
                 continue  # Skip the subheading itself
             if in_section:
-                # Stop if we hit another subheading (line ending with ':') or a blank line
                 if line.strip().endswith(":") and line.strip() != subheading:
                     break
                 if line.strip() == "":
@@ -74,15 +86,16 @@ def get_section_from_summary(subheading, filename="-summary.txt"):
                 lines.append(line.rstrip())
     return lines
 
+
 # set this to the submit button 
 def display_results():
     canvas.create_text(
-        260.0, 255.0,  # Coordinates inside the rectangle
+        125.0, 255.0,  # Coordinates inside the rectangle
         anchor="nw",
-        text="\n".join(get_section_from_summary("Processes:")) + "\n\n" +
-             "\n".join(get_section_from_summary("Files:")) + "\n\n" +
-             "\n".join(get_section_from_summary("Extensions:")) + "\n\n" +
-             "\n".join(get_section_from_summary("Paths:")),
+        text = "\n\n".join(
+    f"{heading}\n" + "\n".join(get_section_from_summary(heading))
+    for heading in sample_list
+),
         fill="#000000",
         font=("CiscoSansTT", -20)
 )
@@ -136,6 +149,7 @@ canvas.create_rectangle(
     295.5,
     fill="#FFFFFF",
     outline="")
+
 
 canvas.create_text(
     249.0,
