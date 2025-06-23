@@ -3,7 +3,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Diag_Analyzer_v1_05 import main
+from Diag_Analyzer_v1_06 import main
 from results import launch_results_window
 from pathlib import Path
 from tkinter import (
