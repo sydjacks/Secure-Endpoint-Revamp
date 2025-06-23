@@ -14,3 +14,7 @@ output/
 
 # System files
 .DS_Store
+
+results/
+__pycache__/
+generated_output/__pycache__/

@@ -4,9 +4,21 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from Diag_Analyzer_v1_05 import main
-from results import launch_results_window  
+from results import launch_results_window
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Label, Toplevel, StringVar, IntVar, Checkbutton, messagebox, Scrollbar, Frame
+from tkinter import (
+    Tk,
+    Canvas,
+    Entry,
+    Button,
+    PhotoImage,
+    Label,
+    Toplevel,
+    StringVar,
+    IntVar,
+    Checkbutton,
+    messagebox,
+)
 from datetime import datetime
 
 OUTPUT_PATH = Path(__file__).parent
@@ -16,42 +28,63 @@ ASSETS_PATH = OUTPUT_PATH / "assets" / "frame0"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+
 window = Tk()
+window.title("Secure Endpoint Diagnostic Analyzer")
 file_path_var = StringVar()
 
 # Track checkbox states
-single_file_var = IntVar(value=0)
+single_file_var = IntVar(value=1)  # Checked by default
 directory_var = IntVar(value=0)
-processes_var = IntVar()
-files_var = IntVar()
-extensions_var = IntVar()
-paths_var = IntVar()
+processes_var = IntVar(value=1)  # Checked by default
+files_var = IntVar(value=1)  # Checked by default
+extensions_var = IntVar(value=1)  # Checked by default
+paths_var = IntVar(value=1)  # Checked by default
 
-window.geometry("674x408")
+window.geometry("700x408")  # Increased width
 window.configure(bg="#FFFFFF")
 
 canvas = Canvas(
     window,
     bg="#FFFFFF",
     height=408,
-    width=674,
+    width=700,
     bd=0,
     highlightthickness=0,
-    relief="ridge"
+    relief="ridge",
 )
 canvas.place(x=0, y=0)
 
 canvas.create_rectangle(1.0, 0.0, 371.0, 408.0, fill="#0489BA", outline="")
-canvas.create_rectangle(1.0, 0.0, 675.0, 424.0, fill="#E6F5FB", outline="")
+canvas.create_rectangle(1.0, 0.0, 705.0, 424.0, fill="#E6F5FB", outline="")
 canvas.create_rectangle(0.0, 0.0, 374.0, 408.0, fill="#0489BA", outline="")
 
-canvas.create_text(429.0, 39.0, anchor="nw", fill="#242424", font=("CiscoSansTT Bold", 20 * -1))
-canvas.create_text(393.0, 86.0, anchor="nw", text="Input Selection", fill="#242424", font=("CiscoSansTT", 15 * -1))
-canvas.create_text(390.0, 181.0, anchor="nw", text="Analysis Options", fill="#242424", font=("CiscoSansTT", 15 * -1))
+canvas.create_text(
+    429.0, 39.0, anchor="nw", fill="#242424", font=("CiscoSansTT Bold", 20 * -1)
+)
+canvas.create_text(
+    393.0,
+    86.0,
+    anchor="nw",
+    text="Input Selection",
+    fill="#242424",
+    font=("CiscoSansTT", 15 * -1),
+)
+canvas.create_text(
+    390.0,
+    181.0,
+    anchor="nw",
+    text="Analysis Options",
+    fill="#242424",
+    font=("CiscoSansTT", 15 * -1),
+)
+
 
 def handle_submit():
     if not file_path_var.get():
-        messagebox.showerror("Missing File", "Please select a diagnostic file before submitting.")
+        messagebox.showerror(
+            "Missing File", "Please select a diagnostic file before submitting."
+        )
         return
 
     # Populates a dictionary of selectable options and 0 or 1.
@@ -62,21 +95,22 @@ def handle_submit():
         "paths": paths_var.get(),
         "start_time": start_time_var.get(),
         "single_file": single_file_var.get(),
-        "directory": directory_var.get()
+        "directory": directory_var.get(),
     }
-    
-    results_dir = main(selected_file_path)
-    window.withdraw()  # Hides this window 
-    launch_results_window(str(Path(results_dir)/ "-summary.txt"), options, window)
 
-#Submit Button
+    results_dir = main(selected_file_path)
+    window.withdraw()  # Hides this window
+    launch_results_window(str(Path(results_dir) / "-summary.txt"), options, window)
+
+
+# Submit Button
 button_image_1 = PhotoImage(file=relative_to_assets("button_1.png"))
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=handle_submit, 
-    relief="flat"
+    command=handle_submit,
+    relief="flat",
 )
 button_1.place(x=483.0, y=360.0, width=82.0, height=25.0)
 
@@ -86,15 +120,17 @@ canvas.create_text(
     anchor="nw",
     text="Welcome",
     fill="#FFFFFF",
-    font=("CiscoSansTT Bold", 40 * -1)
+    font=("CiscoSansTT Bold", 40 * -1),
 )
+
 
 def browse_file():
     from tkinter import filedialog
+
     global selected_file_path
     selected_file_path = filedialog.askopenfilename(
         title="Select Diagnostic File",
-        filetypes=[("Compressed Files", "*.zip *.7z"), ("All Files", "*.*")]
+        filetypes=[("Compressed Files", "*.zip *.7z"), ("All Files", "*.*")],
     )
     if selected_file_path:
         print(f"Selected file: {selected_file_path}")
@@ -109,14 +145,15 @@ def clear_checkboxes():
     single_file_var.set(0)
     directory_var.set(0)
 
-#Browse Button
+
+# Browse Button
 button_image_2 = PhotoImage(file=relative_to_assets("button_2.png"))
 button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
     command=browse_file,
-    relief="flat"
+    relief="flat",
 )
 button_2.place(x=391.0, y=118.0, width=53.0, height=16.0)
 
@@ -133,7 +170,7 @@ single_file_cb = Checkbutton(
     highlightthickness=0,
     bd=0,
     activebackground="#E6F5FB",
-    cursor="hand2"
+    cursor="hand2",
 )
 single_file_cb.place(x=417, y=150)
 
@@ -148,7 +185,7 @@ directory_cb = Checkbutton(
     highlightthickness=0,
     bd=0,
     activebackground="#E6F5FB",
-    cursor="hand2"
+    cursor="hand2",
 )
 directory_cb.place(x=550, y=150)
 
@@ -159,7 +196,7 @@ file_path_entry = Entry(
     bg="#D9D9D9",
     fg="#000000",
     highlightthickness=0,
-    font=("CiscoSans", 10)
+    font=("CiscoSans", 10),
 )
 file_path_entry.place(x=470.0, y=120.0, width=185.0, height=15.0)
 
@@ -174,7 +211,7 @@ processes_cb = Checkbutton(
     highlightthickness=0,
     bd=0,
     activebackground="#E6F5FB",
-    cursor="hand2"
+    cursor="hand2",
 )
 processes_cb.place(x=570, y=215)
 
@@ -189,7 +226,7 @@ files_cb = Checkbutton(
     highlightthickness=0,
     bd=0,
     activebackground="#E6F5FB",
-    cursor="hand2"
+    cursor="hand2",
 )
 files_cb.place(x=570, y=237)
 
@@ -204,7 +241,7 @@ extensions_cb = Checkbutton(
     highlightthickness=0,
     bd=0,
     activebackground="#E6F5FB",
-    cursor="hand2"
+    cursor="hand2",
 )
 extensions_cb.place(x=570, y=262)
 
@@ -219,11 +256,12 @@ paths_cb = Checkbutton(
     highlightthickness=0,
     bd=0,
     activebackground="#E6F5FB",
-    cursor="hand2"
+    cursor="hand2",
 )
 paths_cb.place(x=570, y=287)
 
 start_time_var = StringVar()
+
 
 def open_start_time_popup():
     # Create a new popup window for entering the start time
@@ -242,7 +280,9 @@ def open_start_time_popup():
     entry.focus_set()  # Automatically focus the input field
 
     def submit():
-        user_input = time_var.get().strip()  # Get user input and remove surrounding spaces
+        user_input = (
+            time_var.get().strip()
+        )  # Get user input and remove surrounding spaces
 
         try:
             # Get current year dynamically
@@ -250,7 +290,9 @@ def open_start_time_popup():
 
             # Parse the full time using the current year + user input
             # This allows flexibility while keeping consistent datetime comparison
-            full_time = datetime.strptime(f"{current_year} {user_input}", "%Y %b %d %H:%M:%S")
+            full_time = datetime.strptime(
+                f"{current_year} {user_input}", "%Y %b %d %H:%M:%S"
+            )
 
             # Store the parsed datetime for use in filtering log results later
             global parsed_start_time
@@ -264,13 +306,13 @@ def open_start_time_popup():
         except ValueError:
             # Show an error if the input format is incorrect
             messagebox.showerror(
-                "Invalid Format", 
-                "Please enter time like: May 20 12:01:04"
+                "Invalid Format", "Please enter time like: May 20 12:01:04"
             )
 
     # Submit button to trigger time parsing and validation
     submit_btn = Button(popup, text="Submit", command=submit)
     submit_btn.pack(pady=5)
+
 
 start_time_label = Label(
     window,
@@ -278,19 +320,19 @@ start_time_label = Label(
     bg="#D9D9D9",
     fg="#242424",
     font=("CiscoSans", 10),
-    cursor="hand2"
+    cursor="hand2",
 )
 start_time_label.place(x=390, y=208, width=110, height=20)
 start_time_label.bind("<Button-1>", lambda e: open_start_time_popup())
 
-#Clear Button
+# Clear Button
 button_image_9 = PhotoImage(file=relative_to_assets("button_9.png"))
 button_9 = Button(
     image=button_image_9,
     borderwidth=0,
     highlightthickness=0,
     command=clear_checkboxes,
-    relief="flat"
+    relief="flat",
 )
 button_9.place(x=605.0, y=328.0, width=50, height=14)
 
@@ -306,7 +348,7 @@ canvas.create_text(
     ),
     fill="#FFFFFF",
     font=("CiscoSans Bold", 13 * -1),
-    width=320
+    width=320,
 )
 
 window.resizable(False, False)
