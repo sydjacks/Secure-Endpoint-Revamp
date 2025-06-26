@@ -185,13 +185,11 @@ def print_info_to_file(data, name, results_dir, overwrite=False):
 def get_timestamped_results_dir():
     base_results_dir = Path.cwd() / "results"
     base_results_dir.mkdir(parents=True, exist_ok=True)
-    print(f"[DEBUG] Created or confirmed base dir: {base_results_dir}")
 
     # Replace colons with hyphens in the timestamp format
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     timestamped_dir = base_results_dir / timestamp  # Create a Path object
     timestamped_dir.mkdir(parents=True, exist_ok=True)
-    print(f"[DEBUG] Created timestamped dir: {timestamped_dir}")
 
     return timestamped_dir
 

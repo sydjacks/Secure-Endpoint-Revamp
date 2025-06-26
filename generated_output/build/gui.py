@@ -72,7 +72,7 @@ canvas.create_text(
 )
 canvas.create_text(
     390.0,
-    181.0,
+    155.0,
     anchor="nw",
     text="Analysis Options",
     fill="#242424",
@@ -112,7 +112,7 @@ button_1 = Button(
     command=handle_submit,
     relief="flat",
 )
-button_1.place(x=483.0, y=360.0, width=82.0, height=25.0)
+button_1.place(x=483.0, y=353.0, width=82.0, height=25.0)
 
 canvas.create_text(
     90.0,
@@ -159,36 +159,6 @@ button_2.place(x=391.0, y=118.0, width=53.0, height=16.0)
 
 canvas.create_rectangle(468.0, 119.0, 659.0, 135.0, fill="#D9D9D9", outline="")
 
-single_file_cb = Checkbutton(
-    window,
-    variable=single_file_var,
-    text="Single File",
-    bg="#E6F5FB",
-    fg="#242424",
-    font=("CiscoSans", 12),
-    relief="flat",
-    highlightthickness=0,
-    bd=0,
-    activebackground="#E6F5FB",
-    cursor="hand2",
-)
-single_file_cb.place(x=417, y=150)
-
-directory_cb = Checkbutton(
-    window,
-    variable=directory_var,
-    text="Directory",
-    bg="#E6F5FB",
-    fg="#242424",
-    font=("CiscoSans", 12),
-    relief="flat",
-    highlightthickness=0,
-    bd=0,
-    activebackground="#E6F5FB",
-    cursor="hand2",
-)
-directory_cb.place(x=550, y=150)
-
 file_path_entry = Entry(
     window,
     textvariable=file_path_var,
@@ -213,7 +183,7 @@ processes_cb = Checkbutton(
     activebackground="#E6F5FB",
     cursor="hand2",
 )
-processes_cb.place(x=570, y=215)
+processes_cb.place(x=570, y=200)
 
 files_cb = Checkbutton(
     window,
@@ -228,7 +198,7 @@ files_cb = Checkbutton(
     activebackground="#E6F5FB",
     cursor="hand2",
 )
-files_cb.place(x=570, y=237)
+files_cb.place(x=570, y=222)
 
 extensions_cb = Checkbutton(
     window,
@@ -243,7 +213,7 @@ extensions_cb = Checkbutton(
     activebackground="#E6F5FB",
     cursor="hand2",
 )
-extensions_cb.place(x=570, y=262)
+extensions_cb.place(x=570, y=247)
 
 paths_cb = Checkbutton(
     window,
@@ -258,7 +228,7 @@ paths_cb = Checkbutton(
     activebackground="#E6F5FB",
     cursor="hand2",
 )
-paths_cb.place(x=570, y=287)
+paths_cb.place(x=570, y=272)
 
 start_time_var = StringVar()
 
@@ -322,7 +292,7 @@ start_time_label = Label(
     font=("CiscoSans", 10),
     cursor="hand2",
 )
-start_time_label.place(x=390, y=208, width=110, height=20)
+start_time_label.place(x=390, y=183, width=100, height=20)
 start_time_label.bind("<Button-1>", lambda e: open_start_time_popup())
 
 # Clear Button
@@ -334,7 +304,7 @@ button_9 = Button(
     command=clear_checkboxes,
     relief="flat",
 )
-button_9.place(x=605.0, y=328.0, width=50, height=14)
+button_9.place(x=605.0, y=313.0, width=50, height=14)
 
 canvas.create_text(
     34.0,
