@@ -1,3 +1,0 @@
-([('gui',
-   '/Users/sydjacks/Secure-Endpoint-Revamp/generated_output/build/dist/gui',
-   'EXECUTABLE')],)
