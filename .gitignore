@@ -18,3 +18,5 @@ output/
 results/
 __pycache__/
 generated_output/__pycache__/
+build/
+gui.spec
