@@ -25,3 +25,7 @@ Future Installments:
     Suggestion: Clear results directory at start time, user has option to save results locally. 
 
 Written by Sydney Jackson and Samiya Fyffe
+
+
+
+<img width="695" height="434" alt="Screenshot 2025-07-26 at 1 55 28 AM" src="https://github.com/user-attachments/assets/3360b3d6-2414-40d0-93ed-20b582c37e65" />
