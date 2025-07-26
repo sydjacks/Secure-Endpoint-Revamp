@@ -17,13 +17,6 @@ Key Features:
 - Optionally allows exporting the summary to a separate text file from the GUI.
 - Optionally allows the user to input start time for analysis.
 
-
-Future Installments:
-- Results scrollbar
-- Diagnostic Analyzer version name update
-- Runtime optimization (get_latest_summary_path); 
-    Suggestion: Clear results directory at start time, user has option to save results locally. 
-
 Written by Sydney Jackson and Samiya Fyffe
 
 
